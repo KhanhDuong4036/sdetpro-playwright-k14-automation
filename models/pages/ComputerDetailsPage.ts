@@ -9,8 +9,7 @@ export default class ComputerDetailsPage {
     }
 
     computerComp<T extends ComputerEssentialComponent>(computerComponentClass: ComputerComponentConstructor<T>): T {
-        console.log(computerComponentClass.selectorValue);
-        return new computerComponentClass(this.page.locator(""));
+        return new computerComponentClass(this.page.locator(computerComponentClass.selectorValue));
 
     }
 
