@@ -11,30 +11,36 @@ export default class StandardComputerComponent extends ComputerEssentialComponen
         super(component);
     }
 
-    async selectProcessorType(type: string): Promise<void> {
+    async selectProcessorType(type: string): Promise<string> {
         const allDropdown: Locator[] = await this.component.locator(this.productAttributeSelector).all();
         const PROCESSOR_DROPDOWN_INDEX = 0;
-        await this.selectOption(allDropdown[PROCESSOR_DROPDOWN_INDEX], type);
+        return await this.selectOption(allDropdown[PROCESSOR_DROPDOWN_INDEX], type);
 
     }
-    async selectRAMType(type: string): Promise<void> {
+    async selectRAMType(type: string): Promise<string> {
         const RAM_DROPDOWN_INDEX = 1;
         const allDropdown: Locator[] = await this.component.locator(this.productAttributeSelector).all();
-        await this.selectOption(allDropdown[RAM_DROPDOWN_INDEX], type);
+        return await this.selectOption(allDropdown[RAM_DROPDOWN_INDEX], type);
 
     }
     
-    private async selectOption(dropdown: Locator, type: string): Promise<void> {
+    private async selectOption(dropdown: Locator, type: string): Promise<string> {
         const allOptions = await dropdown.locator('option').all();
-        let optionIndex = 0;
+        let optionIndex = undefined;
+        let optionFullText: string = '';
         for(const option of allOptions){
-            const optionText = await option.textContent();
-            if(optionText?.startsWith(type)){
+            optionFullText = await option.textContent();
+            if(optionFullText?.startsWith(type)){
                 optionIndex = allOptions.indexOf(option);
                 break;
             }
         }
+        if(optionIndex = undefined){
+            throw new Error(`There is no matching option for ${type}`);
+        }
+        
         await dropdown.selectOption({index: optionIndex})
+        return optionFullText;
 
     }
 }
