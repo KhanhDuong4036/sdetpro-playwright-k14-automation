@@ -18,7 +18,7 @@ export default class BaseItemDetailComponent {
 
     public async getProductPrice(): Promise<number> {
         const productPriceEle: Locator = await this.component.locator(this.priceSel);
-        return Number(productPriceEle.textContent());
+        return Number(await productPriceEle.textContent());
     }
 
     public async getProductQuantity(): Promise<number> {
