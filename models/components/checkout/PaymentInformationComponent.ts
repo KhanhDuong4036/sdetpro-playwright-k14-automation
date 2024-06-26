@@ -1,8 +1,8 @@
 import { Locator } from "@playwright/test";
 import { selector } from "../SelectorDecorator";
 
-@selector(".cart-footer .totals")
-export default class TotalComponent {
+@selector("#opc-payment_info")
+export default class PaymentInformationComponent {
     
     protected component: Locator;
 
@@ -21,8 +21,8 @@ export default class TotalComponent {
         let priceCategories = {};
         const priceTableRow = await this.component.locator(this.priceTableRowSel).all();
         for(let tableRow of priceTableRow){
-            const priceTypeText = await tableRow.locator(this.priceTypeSel).innerText();
-            const priceValueText = await tableRow.locator(this.priceValueSel).innerText();
+            const priceTypeText = await tableRow.locator(this.priceTypeSel).textContent();
+            const priceValueText = await tableRow.locator(this.priceValueSel).textContent();
             priceCategories[priceTypeText] = Number(priceValueText);
         }
         return priceCategories;

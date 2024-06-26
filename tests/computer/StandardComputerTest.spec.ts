@@ -8,6 +8,11 @@ test('Test Standard ComputerComponent', async ({page})=>{
     const computerFlow: OrderComputerFlow = new OrderComputerFlow(page, StandardComputerComponent, testData);
     await computerFlow.buildComputerSpecAndAddToCart();
     await computerFlow.verifyShoppingCart();
+    await computerFlow.agreeTermOfServiceAndCheckout();
+    await computerFlow.inputBillingAddress();
+    await computerFlow.inputShippingAddress();
+    await computerFlow.selectShippingMethod();
+
 
 
 })
