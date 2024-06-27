@@ -36,7 +36,7 @@ export default abstract class ComputerEssentialComponent extends BaseItemDetailC
         const FIRST_ELEMENT_INDEX = 0;
         const optionEle = optionElements[FIRST_ELEMENT_INDEX];
         await optionEle.scrollIntoViewIfNeeded();
-        const optionText = await optionEle.textContent();
+        const optionText = await optionEle.innerText();
         await optionEle.click();
         return optionText;
     }

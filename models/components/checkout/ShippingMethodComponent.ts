@@ -3,6 +3,9 @@ import { selector } from "../SelectorDecorator";
 
 @selector("#opc-shipping_method")
 export default class ShippingMethodComponent {
+    static selectorValue(selectorValue: any): any {
+        throw new Error("Method not implemented.");
+    }
     
     protected component: Locator;
 

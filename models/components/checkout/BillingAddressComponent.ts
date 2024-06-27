@@ -3,6 +3,9 @@ import { selector } from "../SelectorDecorator";
 
 @selector("#opc-billing")
 export default class BillingAddressComponent {
+    static selectorValue(selectorValue: any): any {
+        throw new Error("Method not implemented.");
+    }
     
     protected component: Locator;
     private readonly firstNameSel = "#BillingNewAddress_FirstName";

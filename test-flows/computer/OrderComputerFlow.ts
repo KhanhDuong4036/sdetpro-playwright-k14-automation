@@ -1,13 +1,18 @@
 import { Page } from "@playwright/test";
+import defaultCheckoutUserData from "../../test-data/computer/DefaultCheckoutUser.json";
+import defaultPaymentInformationUserData from "../../test-data/computer/PaymentInformationUser.json";
 import ComputerEssentialComponent from "../../models/components/computer/ComputerEssentialComponent";
 import ComputerDetailsPage from "../../models/pages/ComputerDetailsPage";
 import ShoppingCartPage from "../../models/pages/ShoppingCartPage";
 import CheckoutOptionsPage from "../../models/pages/CheckoutOptionsPage";
-import defaultCheckoutUserData from "../../test-data/computer/DefaultCheckoutUser.json";
 import CheckoutPage from "../../models/pages/CheckoutPage";
 import BillingAddressComponent from "../../models/components/checkout/BillingAddressComponent";
 import ShippingAddressComponent from "../../models/components/checkout/ShippingAddressComponent";
 import ShippingMethodComponent from "../../models/components/checkout/ShippingMethodComponent";
+import PaymentMethodComponent from "../../models/components/checkout/PaymentMethodComponent";
+import PAYMENT_METHOD from "../../constants/Payment";
+import PaymentInformationComponent from "../../models/components/checkout/PaymentInformationComponent";
+import ConfirmOrderComponent from "../../models/components/checkout/ConfirmOrderComponent";
 
 export default class OrderComputerFlow {
 
@@ -103,7 +108,7 @@ export default class OrderComputerFlow {
           await billingAddressComponent.clickOnContinueBtn();
 
      }
-     
+
      public async inputShippingAddress(): Promise<void> {
           const checkoutPage: CheckoutPage = new CheckoutPage(this.page);
           const shippingAddressComponent: ShippingAddressComponent = checkoutPage.shippingAddressComponent();
@@ -118,7 +123,47 @@ export default class OrderComputerFlow {
 
      }
 
+     public async selectPaymentMethod(paymentMethod: string): Promise<void> {
+          const checkoutPage: CheckoutPage = new CheckoutPage(this.page);
+          const paymentMethodComponent: PaymentMethodComponent = checkoutPage.paymentMethodComponent();
+          switch (paymentMethod) {
+               case PAYMENT_METHOD.cod:
+                    await paymentMethodComponent.selectCODMethod();
+                    break;
+               case PAYMENT_METHOD.checkMoneyOrder:
+                    await paymentMethodComponent.selectCheckMoneyOrderMethod();
+                    break;
+               case PAYMENT_METHOD.creditCard:
+                    await paymentMethodComponent.selectCreditCardMethod();
+                    break;
+               case PAYMENT_METHOD.purchaseOrder:
+                    await paymentMethodComponent.selectPurchaseOrderMethod();
+                    break;
+          }
 
+          await paymentMethodComponent.clickOnContinueBtn();
+     }
+
+     public async inputPaymentInformation(creditCardType: string): Promise<void> {
+          const {firstName, lastName} = defaultCheckoutUserData;
+          const {cardNumber, expirationMonth, expirationYear, cardCode} = defaultPaymentInformationUserData;
+          const checkoutPage: CheckoutPage = new CheckoutPage(this.page);
+          const paymentInformationComponent: PaymentInformationComponent = checkoutPage.paymentInformationComponent();
+          await paymentInformationComponent.selectCardType(creditCardType);
+          await paymentInformationComponent.inputCardHoderName(firstName + " " + lastName);
+          await paymentInformationComponent.inputCardNumber(cardNumber);
+          await paymentInformationComponent.selectExpirationDate(expirationMonth,expirationYear);
+          await paymentInformationComponent.inputCardCode(cardCode);
+          await paymentInformationComponent.clickOnContinueBtn();
+
+     }
+
+     public async confirmOrder(): Promise<void> {
+          const checkoutPage: CheckoutPage = new CheckoutPage(this.page);
+          const confirmOrderComponent: ConfirmOrderComponent = checkoutPage.confirmOrderComponent();
+          await confirmOrderComponent.clickOnContinueBtn();
+     }
+     
      private extractAdditionalPrice(fullText: string): number {
           const regex = /\+\d+\.\d+/g;
           const matches = fullText.match(regex);
