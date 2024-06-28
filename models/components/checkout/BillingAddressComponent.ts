@@ -8,6 +8,7 @@ export default class BillingAddressComponent {
     }
     
     protected component: Locator;
+    private readonly inputAddressDropdownSel = '#billing-address-select'; 
     private readonly firstNameSel = "#BillingNewAddress_FirstName";
     private readonly lastNameSel = "#BillingNewAddress_LastName";
     private readonly emailSel = "#BillingNewAddress_Email";
@@ -22,6 +23,17 @@ export default class BillingAddressComponent {
 
     protected constructor(component: Locator) {
         this.component = component;
+
+    }
+
+    public async selectInputNewAddress(): Promise<void>{
+        const inputSelectDropdownEle = await this.component.locator(this.inputAddressDropdownSel);
+        const isUsingExistingAddDropdownDisplayed = await inputSelectDropdownEle.isVisible();
+        console.log(`isUsingExistingAddDropdownDisplayed: ${isUsingExistingAddDropdownDisplayed}`);
+        
+        if(isUsingExistingAddDropdownDisplayed){
+            await inputSelectDropdownEle.selectOption({label: "New Address"});
+        }
 
     }
     

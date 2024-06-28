@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, expect } from "@playwright/test";
 import defaultCheckoutUserData from "../../test-data/computer/DefaultCheckoutUser.json";
 import defaultPaymentInformationUserData from "../../test-data/computer/PaymentInformationUser.json";
 import ComputerEssentialComponent from "../../models/components/computer/ComputerEssentialComponent";
@@ -73,10 +73,16 @@ export default class OrderComputerFlow {
                const unitPrice = await cartItemRowComponent.unitPrice();
                const quantity = await cartItemRowComponent.quantity();
                const subTotal = await cartItemRowComponent.subTotal();
-               console.log(`unitPrice: ${unitPrice}, quantity: ${quantity},subTotal: ${subTotal} `);
+               expect(unitPrice * quantity).toBe(subTotal);
 
           }
           const priceCategories = await totalComponent.priceCategories();
+          const subTotal = priceCategories["Sub-Total:"];
+          const shippingFee = priceCategories["Shipping:"];
+          const tax = priceCategories["Tax:"];
+          const total = priceCategories["Total:"];
+          expect(total).toBe(subTotal+shippingFee+tax);
+          expect(total).toBe(this.totalPrice);
           console.log(`priceCategories: ${JSON.stringify(priceCategories)}`);
 
      }
@@ -95,6 +101,7 @@ export default class OrderComputerFlow {
           } = defaultCheckoutUserData;
           const checkoutPage: CheckoutPage = new CheckoutPage(this.page);
           const billingAddressComponent: BillingAddressComponent = checkoutPage.billingAddressComponent();
+          await billingAddressComponent.selectInputNewAddress();
           await billingAddressComponent.inputFirstname(firstName);
           await billingAddressComponent.inputLastName(lastName);
           await billingAddressComponent.inputEmailAddress(email);
