@@ -6,7 +6,7 @@ import PAYMENT_METHOD from '../../constants/Payment';
 import CREDIT_CARD_TYPE from '../../constants/CreditCardType';
 
 test('Test Standard ComputerComponent', async ({page})=>{
-    await page.goto('https://demowebshop.tricentis.com/build-your-own-computer');
+    await page.goto('/build-your-own-computer');
     const computerFlow: OrderComputerFlow = new OrderComputerFlow(page, StandardComputerComponent, testData);
     await computerFlow.buildComputerSpecAndAddToCart();
     await computerFlow.verifyShoppingCart();
