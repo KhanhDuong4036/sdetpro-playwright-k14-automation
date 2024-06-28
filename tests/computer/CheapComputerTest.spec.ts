@@ -4,10 +4,11 @@ import OrderComputerFlow from '../../test-flows/computer/OrderComputerFlow';
 import testData from '../../test-data/computer/CheapComputerData.json';
 import PAYMENT_METHOD from '../../constants/Payment';
 import CREDIT_CARD_TYPE from '../../constants/CreditCardType';
+import TAGS from '../../constants/Tags';
 
 testData.forEach(computerData => {
-    test(`Test Cheap ComputerComponent | RAM: ${computerData.ram}`, async ({page})=>{
-        await page.goto('https://demowebshop.tricentis.com/build-your-cheap-own-computer');
+    test(`${TAGS.smoke} | Test Cheap ComputerComponent | RAM: ${computerData.ram}`, async ({page})=>{
+        await page.goto('/build-your-cheap-own-computer');
         let computerFlow: OrderComputerFlow = new OrderComputerFlow(page, CheapComputerComponent, computerData);
         await computerFlow.buildComputerSpecAndAddToCart();
         await computerFlow.verifyShoppingCart();

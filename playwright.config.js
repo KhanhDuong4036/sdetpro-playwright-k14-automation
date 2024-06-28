@@ -15,6 +15,7 @@ module.exports = defineConfig({
   ],
   // retries: process.env.CI ? 1 : 0,
   use: {
+    baseURL: 'https://demowebshop.tricentis.com',
     actionTimeout: 5 * 1000,
     trace: 'on-first-retry',
     video: 'on-first-retry',
