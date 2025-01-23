@@ -1,0 +1,6 @@
+priceCategories: {"Sub-Total:":1120,"Shipping:":0,"Tax:":0,"Total:":1120}
+isUsingExistingAddDropdownDisplayed: false
+ Ground (0.00)
+ Next Day Air (0.00)
+ 2nd Day Air (0.00)
+Clicked on shipping method:  2nd Day Air (0.00)

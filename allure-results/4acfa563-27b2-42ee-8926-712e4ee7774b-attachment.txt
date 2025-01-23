@@ -1,0 +1,8 @@
+isUserNameVisible: false
+isViewProfileVisible: false
+isAfterUserNameVisible: true
+isAfterViewProfileVisible: true
+isUserNameVisible: false
+isViewProfileVisible: false
+isAfterUserNameVisible: true
+isAfterViewProfileVisible: true
